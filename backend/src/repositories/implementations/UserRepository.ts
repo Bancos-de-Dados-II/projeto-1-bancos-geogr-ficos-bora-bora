@@ -46,4 +46,31 @@ export class UserRepository implements IUserRepository{
      
     }
 
+    async updateUser(id:string,user: User): Promise<unknown> {
+        let updateUser =  await UserModel.update({...user},{
+            where:{
+                id
+            }
+        })
+
+        return updateUser ;
+    }
+
+    async findById(id: string): Promise<User | null> {
+        let user = await UserModel.findOne({
+            where:{
+                id
+            }
+        })
+        return user;
+    }
+
+    async deleteUser(id: string): Promise<void> {
+        let user =  await UserModel.destroy({
+            where:{
+                id
+            }
+        })
+    }
+
 }

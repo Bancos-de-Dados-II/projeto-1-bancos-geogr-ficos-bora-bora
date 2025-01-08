@@ -46,7 +46,7 @@ class User extends Model{
     
     @Column({
         type:DataType.STRING,
-        allowNull:true
+        allowNull:false
     })
     declare telefone:string
 
