@@ -5,10 +5,10 @@ export class User{
     public name!: string
     public email!: string 
     public password!: string
-    public cpf!: string
-    public foto!: string
-    public telefone!: string
-    public idade!: number
+    public cpf?: string
+    public foto?: string
+    public telefone?: string
+    public idade?: number
     public organizador?: boolean
 
     

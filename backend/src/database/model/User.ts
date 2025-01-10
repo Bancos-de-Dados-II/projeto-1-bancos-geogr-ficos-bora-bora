@@ -34,7 +34,7 @@ class User extends Model{
 
     @Column({
         type:DataType.STRING,
-        allowNull:false
+        allowNull:true
     })
     declare cpf:string
 
@@ -46,13 +46,13 @@ class User extends Model{
     
     @Column({
         type:DataType.STRING,
-        allowNull:false
+        allowNull:true
     })
     declare telefone:string
 
     @Column({
         type:DataType.INTEGER,
-        allowNull:false
+        allowNull:true
     })
     declare idade:number
 

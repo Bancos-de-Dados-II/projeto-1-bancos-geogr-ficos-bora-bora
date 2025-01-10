@@ -10,7 +10,7 @@ export class UpdateUsersController{
         try {
             UpdateUserDTO.parse(request.body);
 
-            let {id} = request.params;
+            let id = request.userId;
             let data:z.infer<typeof UpdateUserDTO> = request.body;
 
             let updatedUser = await this.updateUsersUseCase.execute(data,id);

@@ -8,8 +8,8 @@ export class DeleteUserController{
 
         try {
 
-            let {id} = request.params;
-            let user = await this.deleteUserUsecase.execute(id);
+            let id = request.userId;
+            await this.deleteUserUsecase.execute(id);
 
             return response.status(200).json("User deleted sucessfully");
         } catch (error) {

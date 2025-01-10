@@ -18,6 +18,8 @@ export class UpdateUsersUseCase{
         }
         if(data.idade >= 18){
             updateUser.organizador = true;
+        }else{
+            updateUser.organizador = false;
         }
         
         await this.userRepository.updateUser(id,updateUser);

@@ -38,17 +38,14 @@ export const CreateUserDTO = z.object({
         invalid_type_error:"Password must be a string",
      }).min(4).max(255).refine(data => !!data, { message: 'The password is mandatory' }),
 
-     cpf:z.string({
-        required_error:"Password is required",
-        invalid_type_error:"Password must be a string",
-     }).min(11).max(14).refine(data => validateCPF(data),{message:'Invalid cpf'}),
+     cpf:z.string().min(11).max(14).refine(data => validateCPF(data),{message:'Invalid cpf'}).optional(),
 
-     foto:z.any().optional(),
+     foto:z.string().optional(),
 
      telefone:z.string()
-     .refine(data => validatePhone(data), { message: 'Invalid telephone number' }),
+     .refine(data => validatePhone(data), { message: 'Invalid telephone number' }).optional(),
 
-     idade:z.number().int().positive(),
+     idade:z.number().int().positive().optional(),
 
      organizador:z.boolean().optional()
 })

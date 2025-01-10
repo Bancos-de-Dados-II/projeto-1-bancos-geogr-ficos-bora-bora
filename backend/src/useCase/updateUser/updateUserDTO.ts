@@ -25,7 +25,7 @@ export const UpdateUserDTO = z.object({
 
     name:z.string({
         invalid_type_error:"Name must be a string",
-    }).min(5).max(255).optional().refine(data => !!data, { message: 'The name is mandatory' }),
+    }).min(5).max(255).refine(data => !!data, { message: 'The name is mandatory' }).optional(),
 
      email:z.string({
 
@@ -40,7 +40,7 @@ export const UpdateUserDTO = z.object({
         invalid_type_error:"CPF must be a string",
      }).min(11).max(14).refine(data => validateCPF(data),{message:'Invalid cpf'}).optional(),
 
-     foto:z.any(),
+     foto:z.string().optional(),
 
      telefone:z.string().refine(data => validatePhone(data), { message: 'Invalid telephone number' }).optional(),
 
