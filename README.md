@@ -75,13 +75,21 @@ OBS: Necessary install Docker(Linux) or Docker Setup(Windows)
 Replace the locations where it is: NAME-DB, PASSWORD, USER and DATABASE with the values ​​defined in your .env file
 ```
 
+To create network:
+
+Execute this comand in terminal(Linux) or Terminal Docker Setup(Windows):
+
+```bash
+sudo docker network create postgres-network 
+```
+
 To create container:
 
 Execute this comand in terminal(Linux) or Terminal Docker Setup(Windows):
 
 
 ```bash
-docker run -d --name NAME-DB -e POSTGRES_PASSWORD= POSTGRES_PASSWORD -e POSTGRES_USER= POSTGRES_USER -e POSTGRES_DB= POSTGRES_DB -p 5432:5432 postgres
+docker run --name projeto --network postgres-network -p 5432:5432 -e POSTGRES_PASSWORD= POSTGRES_PASSWORD -e POSTGRES_USER= POSTGRES_USER -e POSTGRES_DB= POSTGRES_DB -d postgis/postgis
 ```
 
 # Example .env file
