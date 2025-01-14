@@ -1,5 +1,6 @@
 import multer, {Options} from "multer";
 import path from "path";
+import { uuid } from "uuidv4";
 
 
 export const multerConfig = {
@@ -10,7 +11,7 @@ export const multerConfig = {
         filename:(req,file,callback)=>{
             const time = new Date().getTime();
 
-            callback(null,`${new Date().getTime()}_${file.originalname}`);
+            callback(null,`${uuid()}_${file.originalname}`);
         }
     }),
     limits:{
