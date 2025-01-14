@@ -7,7 +7,7 @@
 
 # Descrição do Projeto
 
-<p>O projeto trata-se de um site de agendamentos de eventos em que um usuário poderá criar seus eventos e enviar solicitações para outros usuários participarem de sua festa/evento. 
+<p>O projeto trata-se de um site de criação de eventos em que um usuário poderá criar,editar,listar e excluir seus eventos. 
 
 # Ferramentas utilizadas
 
