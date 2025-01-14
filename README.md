@@ -2,7 +2,7 @@
 <h1 align="center">Bora Bora Festas e Eventos</h1>
 
 <p align="center">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8a2crcTaoNBsVCrTBbDQzFbFVmOfsQmht9w&s"/>
+    <img src="./Images/LOGO.png"/>
 </p>
 
 # Descrição do Projeto
