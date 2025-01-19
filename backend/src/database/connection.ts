@@ -1,6 +1,7 @@
 import {Sequelize} from "sequelize-typescript";
 import path from "path";
-import User from "./model/User";
+/* import User from "./model/User"; */
+import Event from "./model/Event";
 
 const __dirname= path.resolve();
 
@@ -13,7 +14,7 @@ function sequelizeInit(database:string, username:string,password:string,host:str
         password,
         host,
         dialect:'postgres',
-        models:[User]
+        models:[Event]
     })
 };
 

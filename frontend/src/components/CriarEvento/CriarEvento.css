@@ -1,0 +1,57 @@
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-criar-evento {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+  }
+  
+  .popup-criar-evento h2 {
+    margin-bottom: 20px;
+  }
+  
+  .popup-criar-evento form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .popup-criar-evento form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .popup-criar-evento .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .popup-criar-evento button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .popup-criar-evento button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .popup-criar-evento button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+  }
+  
