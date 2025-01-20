@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import './CardEvento.css';
+import api from '../../services/api';
 
 interface CardEventoProps {
     imagem: string;
@@ -10,10 +11,15 @@ interface CardEventoProps {
     quantPart: string;
     endereco: string;
     geolocalization: string;
+    id: string;
 }
 
+async function deletarEvento (id: string){
+    await api.delete<CardEventoProps[]>(`/event/${id}`)
+}
 const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description, 
-    horario, data, quantPart, endereco, geolocalization}) => {
+    horario, data, quantPart, endereco, geolocalization, id}) => {
+    console.log(id)
     return (
         <div className='evento'>
             <div className='informacoes'>
@@ -30,7 +36,7 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
             <div className='acoes'>
                 <i className='bi bi-person-fill-add'></i>
                 <i className='bi bi-pencil-square'></i>
-                <i className='bi bi-trash'></i>
+                <i className='bi bi-trash' onClick={() => deletarEvento(id)}></i>
             </div>
         </div>
     );

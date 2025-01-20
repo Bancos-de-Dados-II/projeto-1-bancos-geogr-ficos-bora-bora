@@ -14,6 +14,7 @@ interface Evento {
     quantPart: string;
     endereco: string;
     geolocalization: string;
+    id?: string;
 }
 
 const Menu: React.FC = () => {
@@ -23,9 +24,9 @@ const Menu: React.FC = () => {
 
     const handleCriarEvento = (title: string, description: string,
         horario: string, data: string, quantPart: string, endereco: string, 
-        geolocalization: string,) => {
+        geolocalization: string, id: string) => {
 
-        setEventos([...eventos, {title, description, horario, data, quantPart, endereco, geolocalization}]);
+        setEventos([...eventos, {title, description, horario, data, quantPart, endereco, geolocalization, id}]);
     };
 
    const fetchEventos = async () => {
@@ -67,6 +68,7 @@ const Menu: React.FC = () => {
             <div className={`menu ${selecionada === "Meus Eventos" ? "background-meus-eventos" : "background-meus-convites"}`}>
 
             {selecionada === "Meus Eventos" && eventos.map((evento, index) => (
+                
                 <CardEvento
                     key={index}
                     imagem="./Images/LOGO.png"
@@ -77,7 +79,9 @@ const Menu: React.FC = () => {
                     quantPart={`${evento.quantPart}`}
                     endereco={`${evento.endereco}`}
                     geolocalization={`${evento.geolocalization}`}
+                    id={`${evento.id}`}
                 />
+                
                 ))}
             </div>
                     </div>

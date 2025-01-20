@@ -1,15 +1,15 @@
+import './EditarEvento.css'
 import React, {useState, useRef} from "react";
 import ReactModal from "react-modal";
-import './CriarEvento.css';
 import api from "../../services/api";
 
-interface CriarEventoProps {
+interface EditarEventoProps {
     isOpen: boolean;
     onClose: () => void;
     onCreate: (title: string, drescription: string, horario: string, data: string, quantPart:string, endereco:string, geolocalization: string, id?: any) => void;
 }
 
-const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) => {
+const CriarEvento: React.FC<EditarEventoProps> = ({isOpen, onClose, onCreate}) => {
     
     //Gambiarra null!
     const inputNome = useRef<HTMLInputElement>(null!);
