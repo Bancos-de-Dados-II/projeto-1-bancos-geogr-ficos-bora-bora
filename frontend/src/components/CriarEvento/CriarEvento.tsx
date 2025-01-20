@@ -2,11 +2,20 @@ import React, {useState, useRef} from "react";
 import ReactModal from "react-modal";
 import './CriarEvento.css';
 import api from "../../services/api";
+import MyMap from "../Map/Map";
 
 interface CriarEventoProps {
     isOpen: boolean;
     onClose: () => void;
     onCreate: (title: string, drescription: string, horario: string, data: string, quantPart:string, endereco:string, geolocalization: string, id?: any) => void;
+}
+
+async function search(pesquisa: string){
+    let url = await  fetch(`https://nominatim.openstreetmap.org/search?q=${pesquisa}&format=json`).then(
+        data=>data.json()
+    );
+
+    return url;
 }
 
 const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) => {
@@ -104,7 +113,11 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
                 <label>
                     Onde será seu evento?
                     <input type="text" ref={inputEndereco} required/>
+                    <button onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
                 </label>
+                <div>
+                    <MyMap/>
+                </div>
 
                 <div className="buttons-create">
                     <button type="submit" onClick={createEventos}>Criar</button>
