@@ -10,14 +10,6 @@ interface CriarEventoProps {
     onCreate: (title: string, drescription: string, horario: string, data: string, quantPart:string, endereco:string, geolocalization: string, id?: any) => void;
 }
 
-async function search(pesquisa: string){
-    let url = await  fetch(`https://nominatim.openstreetmap.org/search?q=${pesquisa}&format=json`).then(
-        data=>data.json()
-    );
-
-    return url;
-}
-
 const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) => {
     
     //Gambiarra null!
@@ -29,6 +21,23 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
     const inputData = useRef<HTMLInputElement>(null!);
     const inputEndereco = useRef<HTMLInputElement>(null!)
     const [imagemEvento, setImagemEvento] = useState<File | null>(null);
+    const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+    console.log(coordinates)
+
+    async function search(pesquisa: string) {
+        try {
+            const url = await fetch(`https://nominatim.openstreetmap.org/search?q=${pesquisa}&format=json`);
+            const data = await url.json();
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                setCoordinates([parseFloat(lat), parseFloat(lon)]);
+            } else {
+                alert("Nenhum resultado encontrado para o endereço.");
+            }
+        } catch (error) {
+            console.error("Erro ao buscar coordenadas:", error);
+        }
+    }
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -55,16 +64,6 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
     };
 
     async function createEventos (){
-        console.log({title: inputNome.current.value,
-            description: inputDescricao.current.value,
-            horario: inputHorario.current.value,
-            data: inputData.current.value,
-            quantPart: inputParticipantes.current.value,
-            endereco: inputEndereco.current.value,
-            geolocalization: {
-                "type":"Point",
-                "coordinates":[]
-            }})
         await api.post('/event', {
             imagem: "",
             title: inputNome.current.value,
@@ -75,10 +74,9 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
             endereco: inputEndereco.current.value,
             geolocalization: {
                 "type":"Point",
-                "coordinates":[]
+                "coordinates":[coordinates[0], coordinates[1]]
             }
         })
-        /* console.log(inputNome); */
     }
 
     return (
@@ -113,10 +111,10 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
                 <label>
                     Onde será seu evento?
                     <input type="text" ref={inputEndereco} required/>
-                    <button onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
+                    <button className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
                 </label>
                 <div>
-                    <MyMap/>
+                    <MyMap coordinates={coordinates}/>
                 </div>
 
                 <div className="buttons-create">

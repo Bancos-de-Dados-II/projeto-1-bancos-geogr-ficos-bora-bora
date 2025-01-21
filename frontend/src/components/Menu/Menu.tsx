@@ -29,15 +29,15 @@ const Menu: React.FC = () => {
         setEventos([...eventos, {title, description, horario, data, quantPart, endereco, geolocalization, id}]);
     };
 
-   const fetchEventos = async () => {
+    const fetchEventos = async () => {
         const response = await api.get<Evento[]>("/event");
         setEventos(response.data);
-        console.log(response.data);
-   }
+        /* console.log(response.data); */
+    }
 
-   useEffect(() => {
+    useEffect(() => {
         fetchEventos();
-   }, []);
+    }, []);
 
     return (
         <div className="container-background">
@@ -84,8 +84,8 @@ const Menu: React.FC = () => {
                 
                 ))}
             </div>
-                    </div>
-                );
-            };
+        </div>
+    );
+};
 
 export default Menu;
