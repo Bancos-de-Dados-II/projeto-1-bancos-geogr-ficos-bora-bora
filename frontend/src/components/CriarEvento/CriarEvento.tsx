@@ -7,10 +7,15 @@ import MyMap from "../Map/Map";
 interface CriarEventoProps {
     isOpen: boolean;
     onClose: () => void;
-    onCreate: (title: string, drescription: string, horario: string, data: string, quantPart:string, endereco:string, geolocalization: string, id?: any) => void;
+    // onCreate?: (title: string, drescription: string, horario: string, data: string, quantPart:string, endereco:string, geolocalization: string, id?: any) => void;
+    evento:object;
 }
 
-const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) => {
+const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
+   
+    
+
+    // const [evento,setEvento] = useState<unknown>(null);
     
     //Gambiarra null!
     const inputNome = useRef<HTMLInputElement>(null!);
@@ -22,7 +27,6 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
     const inputEndereco = useRef<HTMLInputElement>(null!)
     const [imagemEvento, setImagemEvento] = useState<File | null>(null);
     const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
-    console.log(coordinates)
 
     async function search(pesquisa: string) {
         try {
@@ -51,7 +55,7 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
         const enderecoEvento = inputEndereco.current?.value.trim();
 
         if (nomeEvento && horarioEvento && participantesEvento && localEvento && descricaoEvento && dataEvento && enderecoEvento) {
-            onCreate(nomeEvento, horarioEvento, participantesEvento, localEvento, descricaoEvento, dataEvento, enderecoEvento);
+            // onCreate(nomeEvento, horarioEvento, participantesEvento, localEvento, descricaoEvento, dataEvento, enderecoEvento);
       
             if (inputNome.current) inputNome.current.value = "";
             if (inputHorario.current) inputHorario.current.value = "";
@@ -79,33 +83,106 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
         })
     }
 
+    async function putEvento (id:string){
+        await api.put(`/event/${id}`, {
+            imagem: "",
+            title: inputNome.current.value,
+            description: inputDescricao.current.value,
+            horario: inputHorario.current.value,
+            data: inputData.current.value,
+            quantPart:parseInt(inputParticipantes.current.value),
+            endereco: inputEndereco.current.value,
+            geolocalization: {
+                "type":"Point",
+                "coordinates":[coordinates[0], coordinates[1]]
+            }
+    })
+}
+
+
+    
+    if(evento){
+
+        console.log(evento.title);
+        
+
+     
+
+        return (
+            <ReactModal isOpen={isOpen} onRequestClose={onClose} className="popup-criar-evento" overlayClassName="popup-overlay">
+                <h2>Editar Evento</h2>
+                <form onSubmit={submit}>
+                    <label>
+                        Como vai se chamar seu evento?
+                        <input type="text" ref={inputNome}  placeholder={evento.title} />
+                    </label>
+    
+                    <label>
+                        Descreva seu evento
+                        <input type="text" ref={inputDescricao}  placeholder={evento.description}/>
+                    </label>
+    
+                    <label>
+                        Que horas seu evento começa?
+                        <input type="time" ref={inputHorario}  />
+                    </label>
+    
+                    <label>
+                        Quando será seu evento?
+                        <input type="date" ref={inputData}  placeholder={evento.data}/>
+                    </label>
+    
+                    <label>
+                        Quantas pessoas serão convidadas ?
+                        <input type="text" ref={inputParticipantes}  placeholder={evento.quantPart}/>
+                    </label>
+    
+                    <label>
+                        Onde será seu evento?
+                        <input type="text" ref={inputEndereco}    placeholder={evento.endereco}/>
+                        <button className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
+                    </label>
+                    <div>
+                        <MyMap coordinates={coordinates}/>
+                    </div>
+    
+                    <div className="buttons-create">
+                        <button type="submit" onClick={()=>putEvento(evento.id)}>Atualizar</button>
+                        <button type="button" onClick={onClose}>Cancelar</button>
+                    </div>
+                </form>
+            </ReactModal>
+        );
+    }
+
+    
     return (
         <ReactModal isOpen={isOpen} onRequestClose={onClose} className="popup-criar-evento" overlayClassName="popup-overlay">
             <h2>Criar Evento</h2>
             <form onSubmit={submit}>
                 <label>
                     Como vai se chamar seu evento?
-                    <input type="text" ref={inputNome} required/>
+                    <input type="text" ref={inputNome} required />
                 </label>
 
                 <label>
                     Descreva seu evento
-                    <input type="text" ref={inputDescricao} required/>
+                    <input type="text" ref={inputDescricao} required />
                 </label>
 
                 <label>
                     Que horas seu evento começa?
-                    <input type="time" ref={inputHorario} required/>
+                    <input type="time" ref={inputHorario} required />
                 </label>
 
                 <label>
                     Quando será seu evento?
-                    <input type="date" ref={inputData} required/>
+                    <input type="date" ref={inputData} required />
                 </label>
 
                 <label>
                     Quantas pessoas serão convidadas ?
-                    <input type="text" ref={inputParticipantes} required/>
+                    <input type="text" ref={inputParticipantes} required />
                 </label>
 
                 <label>
@@ -124,6 +201,8 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, onCreate}) =>
             </form>
         </ReactModal>
     );
+
+
 };
 
 export default CriarEvento;

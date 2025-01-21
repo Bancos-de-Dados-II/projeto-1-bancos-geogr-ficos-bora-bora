@@ -22,12 +22,12 @@ const Menu: React.FC = () => {
     const [popupCriarOpen, setPopupCriarOpen] = useState(false);
     const [eventos, setEventos] = useState<Evento[]>([]);
 
-    const handleCriarEvento = (title: string, description: string,
-        horario: string, data: string, quantPart: string, endereco: string, 
-        geolocalization: string, id: string) => {
+    // const handleCriarEvento = (title: string, description: string,
+    //     horario: string, data: string, quantPart: string, endereco: string, 
+    //     geolocalization: string, id: string) => {
 
-        setEventos([...eventos, {title, description, horario, data, quantPart, endereco, geolocalization, id}]);
-    };
+    //     setEventos([...eventos, {title, description, horario, data, quantPart, endereco, geolocalization, id}]);
+    // };
 
     const fetchEventos = async () => {
         const response = await api.get<Evento[]>("/event");
@@ -60,7 +60,7 @@ const Menu: React.FC = () => {
                     <CriarEvento
                     isOpen={popupCriarOpen}
                     onClose={() => setPopupCriarOpen(false)}
-                    onCreate={handleCriarEvento}
+                    // onCreate={handleCriarEvento}
                     />
                 </div>
             )}
