@@ -15,20 +15,19 @@ interface CardEventoProps {
     id: string;
 }
 
-const formatarData = (date: string) => {
-    const data = new Date(date);
-    const dataFormatada = data.toLocaleDateString("pt-BR");
-    
-    return `${dataFormatada}`;
+const formatarData = (dataISO: string) => {
+    const data = new Date(dataISO);
+    if (isNaN(data.getTime())) {
+        console.error("Data inválida:", dataISO);
+        return "Data inválida";
+    }
+    return data.toLocaleDateString("pt-BR", { timeZone: "UTC" });
 };
 
 async function deletarEvento (id: string){
     await api.delete<CardEventoProps[]>(`/event/${id}`)
+    setEventos((prevEventos) => prevEventos.filter((evento) => evento.id !== id));
 }
-
-
-
-
 
 const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description, 
     horario, data, quantPart, endereco, geolocalization, id}) => {
@@ -59,9 +58,9 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
                     <div className='infos'>
                         <p className='titulo'>{title}</p>
                         <p className='descricao'>{description}</p>
+
                         <div className='data-time'>
-                            <p className='data'>{formatarData(data)}</p>
-                            <p className='horario'>às {horario}</p>
+                            <p className='data'>{`${formatarData(data)} às ${horario}`}</p>
                         </div>
                     </div>
                     <i className="bi bi-geo-alt"><p className='endereco'>{endereco}</p></i>
@@ -73,8 +72,8 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
                     <i className='bi bi-person-fill-add'></i>
                     <i className='bi bi-pencil-square' onClick={() =>{ setPopupCriarOpen(true)
                         getEvento(id)
-                    }
-                    }></i>
+                    }}>
+                    </i>
                     <CriarEvento
                     isOpen={popupCriarOpen}
                     onClose={() => setPopupCriarOpen(false)}

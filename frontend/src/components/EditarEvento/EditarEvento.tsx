@@ -66,7 +66,6 @@ const EditarEvento: React.FC<EditarEventoProps> = ({isOpen, onClose, onCreate, i
     async function getEvento(id:string) {
         let evento = await api.get(`/event/${id}`)
         setEvento(evento)
-
     }
 
     return (
@@ -104,7 +103,7 @@ const EditarEvento: React.FC<EditarEventoProps> = ({isOpen, onClose, onCreate, i
                 </label>
 
                 <div className="buttons-create">
-                    <button type="submit" onClick={() => setPopupCriarOpen(true)}>Criar</button>
+                    <button type="submit" onClick={() => setPopupCriarOpen(true)}>Atualizar</button>
                     <button type="button" onClick={onClose}>Cancelar</button>
                 </div>
             </form>
