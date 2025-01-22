@@ -2,7 +2,11 @@
 <h1 align="center">Bora Bora Festas e Eventos</h1>
 
 <p align="center">
+<<<<<<< HEAD
     <img src="./Images/LOGO.png"/>
+=======
+    <img src="./frontend/Images/LOGO.png" width="250px"/>
+>>>>>>> dev
 </p>
 
 # Descrição do Projeto

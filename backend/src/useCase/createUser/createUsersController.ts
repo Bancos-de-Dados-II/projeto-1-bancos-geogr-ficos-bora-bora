@@ -14,6 +14,9 @@ export class CreateUsersController{
             const data:z.infer<typeof CreateUserDTO> = request.body;
 
             const userCreated:any = await this.createUsersUseCase.execute({...data});
+
+            console.log(userCreated);
+            
             
             return response.json({
                 id:userCreated.id,
@@ -29,6 +32,7 @@ export class CreateUsersController{
 
         } catch (error:any) {
             
+            console.log(request.body);
             return response.status(400).json({
                 message:error.message
             });
