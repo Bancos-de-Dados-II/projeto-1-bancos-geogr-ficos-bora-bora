@@ -2,6 +2,7 @@ import React, {useState,useRef} from 'react';
 import './CardEvento.css';
 import api from '../../services/api';
 import CriarEvento from '../CriarEvento/CriarEvento';
+import PopMap from '../PopMap/PopMap';
 
 interface CardEventoProps {
     imagem: string;
@@ -33,13 +34,16 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
     horario, data, quantPart, endereco, geolocalization, id}) => {
         
     const [evento, setEvento] = useState<object>({})
+    
+    console.log(id)
 
     async function getEvento(id:string) {
         const resultado = await api.get(`/event/${id}`);
-        setEvento(resultado.data);
+        await setEvento(resultado.data);
     }
 
     const [popupCriarOpen, setPopupCriarOpen] = useState(false);
+    const [popupMap, setPopUpMap] = useState(false);
 
     // const carregaPopUp = ()=>{
     //     console.log("entrou no popup");
@@ -50,7 +54,7 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
     // }
 
 
-   
+        console.log(id + "testeid")
         return (
             <div className='evento'>
                 <div className='informacoes'>
@@ -63,8 +67,8 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
                             <p className='data'>{`${formatarData(data)} às ${horario}`}</p>
                         </div>
                     </div>
-                    <i className="bi bi-geo-alt"><p className='endereco'>{endereco}</p></i>
-                    
+                    <i className="bi bi-geo-alt" onClick={() =>{ setPopUpMap(true); getEvento(id)}}><p className='endereco'>{endereco}</p></i>
+                    <PopMap isOpen={popupMap} onClose={()=> setPopUpMap(false)} id={id}/>
                     
                     <p id='participantes'>Participantes: /{quantPart}</p>
                 </div>

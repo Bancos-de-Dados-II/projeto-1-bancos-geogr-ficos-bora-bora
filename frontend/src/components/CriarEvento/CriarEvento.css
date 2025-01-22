@@ -114,3 +114,19 @@
   background-color: #f1f1f1;
   border-radius: 10px;
 }
+
+.popup-criar-evento input[type="time"],
+.popup-criar-evento input[type="date"] {
+  color: black; /* Cor do texto */
+  background-color: rgba(0, 0, 0, 0.05); /* Fundo */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.popup-criar-evento input[type="time"]::-webkit-calendar-picker-indicator,
+.popup-criar-evento input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverte as cores para branco */
+  cursor: pointer; /* Mostra o cursor como ponteiro */
+}
+

@@ -11,7 +11,7 @@ interface CriarEventoProps {
     evento:object;
 }
 
-const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
+const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose, evento}) => {
    
     
 
@@ -44,7 +44,7 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
     }
 
     const submit = (e: React.FormEvent) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         const nomeEvento = inputNome.current?.value.trim();
         const horarioEvento = inputHorario.current?.value.trim();
@@ -103,7 +103,7 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
     
     if(evento){
 
-        console.log(evento.title);
+        //console.log(evento.title);
         
 
      
@@ -112,6 +112,16 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
             <ReactModal isOpen={isOpen} onRequestClose={onClose} className="popup-criar-evento" overlayClassName="popup-overlay">
                 <h2>Editar Evento</h2>
                 <form onSubmit={submit}>
+                    <div>
+                        <MyMap coordinates={coordinates}/>
+                    </div>
+
+                    <label>
+                        Onde será seu evento?
+                        <input type="text" ref={inputEndereco}    placeholder={evento.endereco}/>
+                        <button type="button" className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
+                    </label>
+                    <br />
                     <label>
                         Como vai se chamar seu evento?
                         <input type="text" ref={inputNome}  placeholder={evento.title} />
@@ -129,22 +139,13 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
     
                     <label>
                         Quando será seu evento?
-                        <input type="date" ref={inputData}  placeholder={evento.data}/>
+                        <input type="date" ref={inputData}  />
                     </label>
     
                     <label>
                         Quantas pessoas serão convidadas ?
                         <input type="text" ref={inputParticipantes}  placeholder={evento.quantPart}/>
                     </label>
-    
-                    <label>
-                        Onde será seu evento?
-                        <input type="text" ref={inputEndereco}    placeholder={evento.endereco}/>
-                        <button className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
-                    </label>
-                    <div>
-                        <MyMap coordinates={coordinates}/>
-                    </div>
     
                     <div className="buttons-create">
                         <button type="submit" onClick={()=>putEvento(evento.id)}>Atualizar</button>
@@ -160,6 +161,16 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
         <ReactModal isOpen={isOpen} onRequestClose={onClose} className="popup-criar-evento" overlayClassName="popup-overlay">
             <h2>Criar Evento</h2>
             <form onSubmit={submit}>
+                <div>
+                    <MyMap coordinates={coordinates}/>
+                </div>
+
+                <label>
+                    Onde será seu evento?
+                    <input type="text" ref={inputEndereco} required/>
+                    <button className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
+                </label>
+                <br />
                 <label>
                     Como vai se chamar seu evento?
                     <input type="text" ref={inputNome} required />
@@ -184,15 +195,6 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose,evento}) => {
                     Quantas pessoas serão convidadas ?
                     <input type="text" ref={inputParticipantes} required />
                 </label>
-
-                <label>
-                    Onde será seu evento?
-                    <input type="text" ref={inputEndereco} required/>
-                    <button className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
-                </label>
-                <div>
-                    <MyMap coordinates={coordinates}/>
-                </div>
 
                 <div className="buttons-create">
                     <button type="submit" onClick={createEventos}>Criar</button>
