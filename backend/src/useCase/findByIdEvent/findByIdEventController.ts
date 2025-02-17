@@ -10,9 +10,11 @@ export class FindByIdEventController{
             let {id} = request.params;
 
             let event = await this.findByIdEventUseCase.execute(id);
-            return response.status(200).json(event);
+            response.status(200).json(event);
+            return;
         } catch (error:any) {
             response.status(400).json({message:error.message});
+            return;
         }
     }
 }

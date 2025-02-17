@@ -5,7 +5,6 @@ export interface IEventRepository{
     findById(id:string):Promise<Event | null>
     findAll():Promise<Event[]>
     deleteEvent(id:string):Promise<void>
-    findByName(name:string):Promise<Event | null>
     createEvent(event:Event):Promise<unknown>
     updateEvent(id:string,event:Event): Promise<unknown>
 }

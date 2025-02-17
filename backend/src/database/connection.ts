@@ -1,21 +1,13 @@
-import {Sequelize} from "sequelize-typescript";
-import path from "path";
-/* import User from "./model/User"; */
-import Event from "./model/Event";
+import dotenv from "dotenv";
+dotenv.config();
+import mongoose from "mongoose";
 
-const __dirname= path.resolve();
+conectar();
 
-function sequelizeInit(database:string, username:string,password:string,host:string){
-    console.log(__dirname + '/src/models');
-    
-    return new Sequelize({
-        database,
-        username,
-        password,
-        host,
-        dialect:'postgres',
-        models:[Event]
-    })
-};
+async function conectar(){
+    await mongoose.connect(process.env.MONGO_URL!.toString()).
+        then(()=> console.log("Conectado ao MongoDB")).
+        catch(err => console.log(err));
+}
 
-export default sequelizeInit;
+export default mongoose;

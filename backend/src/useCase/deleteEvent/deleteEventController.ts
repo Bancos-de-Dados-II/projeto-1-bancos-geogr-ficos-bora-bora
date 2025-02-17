@@ -8,11 +8,13 @@ export class DeleteEventController{
         try {
             let {id} = request.params;
 
-            let eventDeleted = await this.deleteEventUseCase.execute(id);
+            await this.deleteEventUseCase.execute(id);
 
-            return response.status(200).json("Evento deletado com sucesso")
+            response.status(200).json("Evento deletado com sucesso")
+            return;
         } catch (error:any) {
-            return response.status(400).json({message:error.message});
+            response.status(400).json({message:error.message});
+            return;
         }
     }
 }

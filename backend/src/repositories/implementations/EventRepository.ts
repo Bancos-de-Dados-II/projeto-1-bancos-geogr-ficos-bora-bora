@@ -1,20 +1,17 @@
 import { IEventRepository } from "../IEventRepository";
 import { Event } from "../../types/Event";
-import EventModel from "../../database/model/Event";
+import Evento from "../../database/model/Event";
 
 export class EventRepository implements IEventRepository{
-    async findById(id: string): Promise<Event | null> {
-        let event = await EventModel.findOne({
-            where:{
-                id
-            }
-        });
 
+    async findById(id: string): Promise<Event | null> {
+        let event = await Evento.findOne({_id:id}) as Event;
         return event;
     }
 
+
     async findAll(): Promise<Event[]> {
-        let result = await EventModel.findAll();
+        let result = await Evento.find();
          let events: Event[] = [];
         
         result.forEach((user:any )=>{
@@ -26,35 +23,23 @@ export class EventRepository implements IEventRepository{
     }
 
     async deleteEvent(id: string): Promise<void> {
-        let event = await EventModel.destroy({
-            where:{
-                id
-            }
-        })
+       await Evento.deleteOne({_id:id});
+       return;
     }
 
-    async findByName(name: string): Promise<Event | null> {
-        let event =  await EventModel.findOne({
-            where:{
-                name
-            }
-        })
-
-        return event;
-    }
     async createEvent(event: Event): Promise<unknown> {
         
-        let newEvent = await EventModel.create({...event});
+        let newEvent = new Evento(event);
+        newEvent.save();
         return newEvent;
     }
 
-    async updateEvent(id: string, event: Event): Promise<unknown> {
-        let updatedEvent = await EventModel.update({...event},{
-                where:{
-                    id
-                }
-        });
 
-        return updatedEvent;
+
+    async updateEvent(id: string, event: Event): Promise<unknown> {
+        await Evento.updateOne({_id:id},{...event});
+        let eventUpdated = await Evento.findOne({_id:id});
+        
+        return eventUpdated;
     }
 }

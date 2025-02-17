@@ -14,13 +14,13 @@ export class CreateEventController{
 
             const eventCreated = await this.createEventUseCase.execute({...data});
 
-            console.log(eventCreated);
-
-            return response.status(200).json(data);
+            response.status(200).json(data);
+            return;
             
 
         } catch (error:any) {
-            return response.status(400).json({message:error.message});
+            response.status(400).json({message:error.message});
+            return;
         }
     }
 }

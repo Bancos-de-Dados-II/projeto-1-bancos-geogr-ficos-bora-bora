@@ -16,9 +16,11 @@ export class UpdateEventController{
             let data:z.infer<typeof updateEventDTO> = request.body;
 
             let updateEvent = await this.updateEventUseCase.execute(id,data);
-            return response.status(200).json(updateEvent);
+            response.status(200).json(updateEvent);
+            return;
         } catch (error:any) {
-            return response.status(400).json({message:error.message});
+            response.status(400).json({message:error.message});
+            return;
         }
     }
 }

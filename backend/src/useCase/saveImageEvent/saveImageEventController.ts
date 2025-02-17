@@ -12,11 +12,13 @@ export class SaveImageEventController{
             let file =  request.file;
             const fileName = file?.filename.toString() || ""; 
             
-            await this.saveImageEventUseCase.execute(id, fileName);
+            let eventoUpdated = await this.saveImageEventUseCase.execute(id, fileName);
             
-            return response.status(200).json(file);
+            response.status(200).json(eventoUpdated);
+            return;
        } catch (error:any) {
-            return response.status(400).json({Error:error.message});
+            response.status(400).json({Error:error.message});
+            return;
        }
     }
 }

@@ -1,72 +1,40 @@
-import { Column, Table, Model, ForeignKey, CreatedAt, DataType, UpdatedAt} from 'sequelize-typescript';
+import mongoose from "../connection";
+import { v4 } from "uuid";
 
-@Table({
-    timestamps:true,
-    tableName:'events',
-    modelName:'Event'
-})
+const {Schema} = mongoose;
 
-class Event extends Model{
-    @Column({
-        primaryKey:true,
-        type:DataType.UUID,
-        defaultValue:DataType.UUIDV4
-    })
-    declare id:string
+const eventoSchema = new Schema({
+    id:{
+        type:'UUID',
+        default: v4()
+    },
 
-    @Column({
-        type:DataType.STRING,
-        allowNull:false
-    })
-    declare title:string
+    title:String,
+    description:String,
+    quantPart:Number,
+    data:String,
+    imagem:String,
+    horario:String,
+    geolocalization:{
+        type: {
+          type: String, // Don't do `{ location: { type: String } }`
+          enum: ['Point'], // 'location.type' must be 'Point'
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
+    },
+    endereco:String,  
+    },{
+    timestamps:true
+});
 
-    @Column({
-        type:DataType.STRING,
-        allowNull:true
-    })
-    declare description:string
+eventoSchema.index({descricao: "text"},
+{default_language: "pt"});
 
-    @Column({
-        type:DataType.INTEGER,
-        allowNull:false
-    })
-    declare quantPart:number
 
-    @Column({
-        type:DataType.DATE,
-        allowNull:true
-    })
-    declare data:string
+const Evento = mongoose.model('Evento', eventoSchema);
+export default Evento;
 
-    @Column({
-        type:DataType.STRING,
-        allowNull:true
-    })
-    declare imagem:string
-    
-    @Column({
-        type:DataType.TIME,
-        allowNull:true
-    })
-    declare horario:string
-
-    @Column({
-        type:DataType.GEOGRAPHY,
-        allowNull:false
-    })
-    declare geolocalization:object
-
-    @Column({
-        type:DataType.STRING,
-        allowNull:false
-    })
-    declare endereco:string
-
-    @CreatedAt
-    declare createdAt:Date;
-
-    @UpdatedAt
-    declare updatedAt: Date;
-}
-
-export default Event;
