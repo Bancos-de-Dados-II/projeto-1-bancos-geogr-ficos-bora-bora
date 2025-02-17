@@ -9,12 +9,13 @@ export class UpdateEventController{
 
     async handle(request:Request,response:Response){
         try {
+            
             updateEventDTO.parse(request.body);
 
             let {id} = request.params;
 
             let data:z.infer<typeof updateEventDTO> = request.body;
-
+            
             let updateEvent = await this.updateEventUseCase.execute(id,data);
             response.status(200).json(updateEvent);
             return;

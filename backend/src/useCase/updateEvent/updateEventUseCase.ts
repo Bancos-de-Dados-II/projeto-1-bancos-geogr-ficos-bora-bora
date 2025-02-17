@@ -5,10 +5,14 @@ export class UpdateEventUseCase{
     constructor(private eventRepository:IEventRepository){}
 
     async execute(id:string,event:any){
+               
         let oldEvent = await this.eventRepository.findById(id) as Event;
-        
-        let updatedEvent:Event={
-            id:oldEvent.id,
+         
+        if(!oldEvent){
+            throw Error("Evento não encontrado nesse id!");
+        }
+
+        let newEvent={
             title:event.title || oldEvent.title,
             data:event.data || oldEvent.data,
             endereco:event.endereco || oldEvent.endereco,
@@ -19,8 +23,10 @@ export class UpdateEventUseCase{
             imagem:event.imagem || oldEvent.imagem,
         }
 
-        await this.eventRepository.updateEvent(id,updatedEvent);
-
+        console.log(newEvent);
+        
+        let updatedEvent = await this.eventRepository.updateEvent(id,newEvent);
+        
         return updatedEvent;
 
     }

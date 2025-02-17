@@ -5,7 +5,18 @@ import Evento from "../../database/model/Event";
 export class EventRepository implements IEventRepository{
 
     async findById(id: string): Promise<Event | null> {
-        let event = await Evento.findOne({_id:id}) as Event;
+        let result = await Evento.findById(id);
+        let event= {
+            id:result!._id,
+            title: result!.title,
+            description: result!.description,
+            quantPart:result!.quantPart,
+            data:result!.data,
+            horario: result!.horario,
+            endereco: result!.endereco,
+            geolocalization:result!.geolocalization,
+            imagem:result!.imagem
+    }
         return event;
     }
 
@@ -37,9 +48,10 @@ export class EventRepository implements IEventRepository{
 
 
     async updateEvent(id: string, event: Event): Promise<unknown> {
-        await Evento.updateOne({_id:id},{...event});
-        let eventUpdated = await Evento.findOne({_id:id});
+
+
+        await Evento.updateOne({_id:id},event);
         
-        return eventUpdated;
+        return event;
     }
 }

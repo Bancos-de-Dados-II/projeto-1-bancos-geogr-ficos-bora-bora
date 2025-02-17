@@ -5,18 +5,27 @@ export class SaveImageEventUseCase{
     constructor(private eventRepository:IEventRepository){}
 
     async execute(id:string,imagem:string){
-        let event = await this.eventRepository.findById(id) as Event;
+        let event = await this.eventRepository.findById(id) as any;
 
-        let newEvent = {
-            ...event,
-            imagem
+        let newEvent: Event= {
+                id:event!._id,
+                title: event!.title,
+                description: event!.description,
+                quantPart:event!.quantPart,
+                data:event!.data,
+                horario: event!.horario,
+                endereco: event!.endereco,
+                geolocalization:event!.geolocalization,
+                imagem
         }
+        
 
         if(!event){
             throw Error("Evento não encontrado");
         }
 
-        await this.eventRepository.updateEvent(id,newEvent);
-        return;
+        let updatedEvent = await this.eventRepository.updateEvent(id,newEvent);
+        
+        return updatedEvent;
     }
 }

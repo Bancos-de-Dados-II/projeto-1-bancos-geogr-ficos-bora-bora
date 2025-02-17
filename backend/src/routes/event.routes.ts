@@ -21,7 +21,7 @@ router.get('/event/:id',(request,response)=>findByIdEventController.handle(reque
 router.put('/event/:id',(request,response)=>updateEventController.handle(request,response));
 
 //patch
-router.patch('/event/:id',upload.single("image"),(request,response)=>saveImageEventController.handle(request,response))
+router.patch('/event/upload-image/:id',upload.single("image"),(request,response)=>saveImageEventController.handle(request,response))
 
 //Delete
 router.delete('/event/:id',(request,response)=>deleteEventController.handle(request,response));
