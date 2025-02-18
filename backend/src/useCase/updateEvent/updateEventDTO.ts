@@ -5,7 +5,7 @@ export const updateEventDTO = z.object({
     title:z.string({
         invalid_type_error:"Title must be a string"
     }
-).min(8).max(255).optional(),
+).min(2).max(255).optional(),
 
 description:z.string({invalid_type_error:"Description must be a string"}).optional(),
 
@@ -29,5 +29,5 @@ geolocalization:z.object({type: z.string(), coordinates: z.array(z.number())}).o
 
 endereco:z.string({
     invalid_type_error:"Endereco must be a string"
-}).min(10).max(255).optional()
+}).min(2).max(255).optional()
 })

@@ -8,7 +8,6 @@ export class FindByIdEventController{
     async handle(request:Request,response:Response){
         try {
             let {id} = request.params;
-
             let event = await this.findByIdEventUseCase.execute(id);
             response.status(200).json(event);
             return;

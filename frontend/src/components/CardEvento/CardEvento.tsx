@@ -1,8 +1,8 @@
-import React, {useState,useRef} from 'react';
+import React, {useState} from 'react';
 import './CardEvento.css';
 import api from '../../services/api';
-import CriarEvento from '../CriarEvento/CriarEvento';
 import PopMap from '../PopMap/PopMap';
+import EditarEvento from '../EditarEvento/EditarEvento';
 
 interface CardEventoProps {
     imagem: string;
@@ -25,36 +25,24 @@ const formatarData = (dataISO: string) => {
     return data.toLocaleDateString("pt-BR", { timeZone: "UTC" });
 };
 
-async function deletarEvento (id: string){
-    await api.delete<CardEventoProps[]>(`/event/${id}`)
-    setEventos((prevEventos) => prevEventos.filter((evento) => evento.id !== id));
-}
 
 const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description, 
-    horario, data, quantPart, endereco, geolocalization, id}) => {
-        
+    horario, data, quantPart, endereco, geolocalization, id}) => {     
+
     const [evento, setEvento] = useState<object>({})
     
-    console.log(id)
-
     async function getEvento(id:string) {
         const resultado = await api.get(`/event/${id}`);
-        await setEvento(resultado.data);
+        setEvento(resultado.data);
+    }
+
+    async function deletarEvento (id: string){
+        await api.delete<CardEventoProps[]>(`/event/${id}`);
     }
 
     const [popupCriarOpen, setPopupCriarOpen] = useState(false);
     const [popupMap, setPopUpMap] = useState(false);
 
-    // const carregaPopUp = ()=>{
-    //     console.log("entrou no popup");
-    //     return(
-
-    //         <CriarEvento isOpen={popupCriarOpen} onClose={() => setPopupCriarOpen(false)} />
-    //     )
-    // }
-
-
-        console.log(id + "testeid")
         return (
             <div className='evento'>
                 <div className='informacoes'>
@@ -78,13 +66,15 @@ const CardEvento: React.FC<CardEventoProps> = ({imagem, title, description,
                         getEvento(id)
                     }}>
                     </i>
-                    <CriarEvento
+                    <EditarEvento
                     isOpen={popupCriarOpen}
                     onClose={() => setPopupCriarOpen(false)}
                     evento = {evento}
-                    // onCreate={handleCriarEvento}
                     />
-                    <i className='bi bi-trash' onClick={() => deletarEvento(id)}></i>
+                    <i className='bi bi-trash' onClick={() => {
+                        deletarEvento(id);
+                        window.location.reload()
+                    }}></i>
                 </div>
             </div>
         );  

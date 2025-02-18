@@ -7,10 +7,18 @@ interface MyMapProps {
 }
 
 const MyMap: React.FC<MyMapProps> = ({ coordinates }) => {
+  console.log(coordinates);
+  
   const defaultPosition: [number, number] = [51.505, -0.09];
 
   const MapUpdater = () => {
     const map = useMap();
+
+    if(!coordinates){
+      map.locate().on("locationfound",function(e){
+        map.setView(e.latlng);
+      })
+    }
 
     useEffect(() => {
       if (coordinates) {

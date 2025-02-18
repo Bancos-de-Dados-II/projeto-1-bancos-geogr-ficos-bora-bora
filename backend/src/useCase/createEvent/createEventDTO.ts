@@ -5,7 +5,7 @@ export const createEventDTO = z.object({
             required_error:"Title is required",
             invalid_type_error:"Title must be a string"
         }
-    ).min(8).max(255).refine(data => !!data, { message: 'The title is mandatory' }),
+    ).min(2).max(255).refine(data => !!data, { message: 'The title is mandatory' }),
 
     description:z.string({invalid_type_error:"Description must be a string"}).optional(),
 
@@ -32,7 +32,7 @@ export const createEventDTO = z.object({
     endereco:z.string({
          required_error:"Endereco is required",
         invalid_type_error:"Endereco must be a string"
-    }).min(10).max(255).refine(data => !!data, { message: 'The endereco is mandatory' })
+    }).min(2).max(255).refine(data => !!data, { message: 'The endereco is mandatory' })
 })
 
 

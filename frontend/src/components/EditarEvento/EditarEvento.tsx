@@ -1,16 +1,17 @@
 import React, {useState, useRef} from "react";
 import ReactModal from "react-modal";
-import './CriarEvento.css';
+import './EditarEvento.css';
 import api from "../../services/api";
 import MyMap from "../Map/Map";
 
-interface CriarEventoProps {
+interface EditarEventoProps {
     isOpen: boolean;
     onClose: () => void;
+    evento:object;
 }
 
-const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose}) => {
-   
+const EditarEvento: React.FC<EditarEventoProps> = ({isOpen, onClose, evento}) => {
+    
     //Gambiarra null!
     const inputNome = useRef<HTMLInputElement>(null!);
     const inputHorario = useRef<HTMLInputElement>(null!);
@@ -53,77 +54,73 @@ const CriarEvento: React.FC<CriarEventoProps> = ({isOpen, onClose}) => {
             if (inputHorario.current) inputHorario.current.value = "";
             if (inputParticipantes.current) inputParticipantes.current.value = "";
             if (inputLocal.current) inputLocal.current.value = "";
-            
-      
+
             onClose();
           }
     };
 
-    async function createEventos (){
-        
-        await api.post('/event', {
+    async function putEvento (id:string){
+        await api.put(`/event/${id}`, {
             imagem: "",
             title: inputNome.current.value,
             description: inputDescricao.current.value,
             horario: inputHorario.current.value,
             data: inputData.current.value,
-            quantPart: parseInt(inputParticipantes.current.value),
+            quantPart:parseInt(inputParticipantes.current.value),
             endereco: inputEndereco.current.value,
             geolocalization: {
                 "type":"Point",
                 "coordinates":[coordinates[1], coordinates[0]]
             }
-        })
-    }
+    })
+}
 
-    return (
-        <ReactModal isOpen={isOpen} onRequestClose={onClose} className="popup-criar-evento" overlayClassName="popup-overlay">
-            <h2>Criar Evento</h2>
-            <form onSubmit={submit}>
-                <div>
-                    <MyMap coordinates={coordinates}/>
-                </div>
+        return (
+            <ReactModal isOpen={isOpen} onRequestClose={onClose} className="popup-criar-evento" overlayClassName="popup-overlay">
+                <h2>Editar Evento</h2>
+                <form onSubmit={submit}>
+                    <div>
+                        <MyMap coordinates={coordinates}/>
+                    </div>
 
-                <label>
-                    Onde será seu evento?
-                    <input type="text" ref={inputEndereco} required/>
-                    <button className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
-                </label>
-                <br />
-                <label>
-                    Como vai se chamar seu evento?
-                    <input type="text" ref={inputNome} required />
-                </label>
-
-                <label>
-                    Descreva seu evento
-                    <input  type="text" ref={inputDescricao} required />
-                </label>
-
-                <label>
-                    Que horas seu evento começa?
-                    <input type="time" ref={inputHorario} required />
-                </label>
-
-                <label>
-                    Quando será seu evento?
-                    <input type="date" ref={inputData} required />
-                </label>
-
-                <label>
-                    Quantas pessoas serão convidadas ?
-                    <input type="text" ref={inputParticipantes} required />
-                </label>
-
-                <div className="buttons-create">
-                    <button type="submit" onClick={createEventos}>Criar</button>
-                    <button type="button" onClick={onClose}>Cancelar</button>
-                </div>
-            </form>
-        </ReactModal>
-    );
-
-
+                    <label>
+                        Onde será seu evento?
+                        <input type="text" ref={inputEndereco}    placeholder={evento.endereco}/>
+                        <button type="button" className="pesquisar" onClick={() => search(inputEndereco.current.value)}>Pesquisar</button>
+                    </label>
+                    <br />
+                    <label>
+                        Como vai se chamar seu evento?
+                        <input type="text" ref={inputNome}  placeholder={evento.title} />
+                    </label>
+    
+                    <label>
+                        Descreva seu evento
+                        <input type="text" ref={inputDescricao}  placeholder={evento.description}/>
+                    </label>
+    
+                    <label>
+                        Que horas seu evento começa?
+                        <input type="time" ref={inputHorario}  />
+                    </label>
+    
+                    <label>
+                        Quando será seu evento?
+                        <input type="date" ref={inputData}  />
+                    </label>
+    
+                    <label>
+                        Quantas pessoas serão convidadas ?
+                        <input type="text" ref={inputParticipantes}  placeholder={evento.quantPart}/>
+                    </label>
+    
+                    <div className="buttons-create">
+                        <button type="submit" onClick={()=>putEvento(evento.id)}>Atualizar</button>
+                        <button type="button" onClick={onClose}>Cancelar</button>
+                    </div>
+                </form>
+            </ReactModal>
+        );
 };
 
-export default CriarEvento;
+export default EditarEvento;

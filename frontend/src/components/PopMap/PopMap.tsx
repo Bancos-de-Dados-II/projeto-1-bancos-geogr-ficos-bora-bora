@@ -6,22 +6,18 @@ import api from "../../services/api";
 interface Map {
     isOpen: boolean;
     onClose: () => void;
-    //coordinates: [number, number] | null;
     id: string;
 }
 
 const PopMap: React.FC<Map> = ({isOpen, onClose, id}) => {
-
     const [coordenadas,setCordenadas] = useState<[number,number]>([])
 
     useEffect(() => {
         async function receberId() {
-            try {
+            try {      
                 const evento = await api.get(`/event/${id}`);
                 const geolocalizacao = evento.data.geolocalization;
                 setCordenadas(geolocalizacao.coordinates);
-                console.log(evento.data);
-                console.log(geolocalizacao);
             } catch (error) {
                 console.error("Erro ao buscar dados do evento:", error);
             }
